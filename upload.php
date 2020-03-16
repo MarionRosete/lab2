@@ -1,34 +1,49 @@
-<?php
-    $size = $_FILES['fileToUpload']['size'];
-    $type = $_FILES['fileToUpload']['type'];
-    $destination = 'uploads/'.basename($_FILES['fileToUpload']['name']);
-   
-    
+<body>
+    <?php
+     include 'bootstrap and js';
+    ?>
+    <div class="jumbotron" >
+	<div class="container" style="width:400px">
 
-    if (checkType($type)&&checkSize($size) == true) {
-            echo "hmm";
-            upload();
+        <?php
+        $files=$_FILES['fileToUpload']['type'];
+        $counted = count($files);
 
-            echo "<img src=".$destination." height=200 width=300 />";
 
-        }
+            for ($i=0; $i < $counted ; $i++) { 
+                $name=$_FILES['fileToUpload']['name'][$i];
+                $tmp_name=$_FILES['fileToUpload']['tmp_name'][$i];
+                $type = $_FILES['fileToUpload']['type'][$i];
+                $size = $_FILES['fileToUpload']['size'][$i]; 
 
-   function checkType($type = null){
-        $allowed = array('jpeg','jpg','png','gif'); 
-        $strArray = explode('/',$type);
-        return in_array(end($strArray),$allowed);
-    }
+                
+                
+                if($type != "image/png"&& $type!="image/jpeg"&& $type!="image/jpg"){
+                    alert( "Fail to upload, only png,jpeg and jpg are accepted");
+                     
+                }elseif($size > 5000000){ 
+                    alert("Fail to upload, File must not exceed to 5mb");
+                    
+                }else{
+                    alert("File uploaded successfully");
+                    
+                    echo "Name : ".$_FILES['fileToUpload']['name'][$i]. "<br>";
+                    echo "Type : ".$_FILES['fileToUpload']['type'][$i]. "<br>";
+                    echo "Size : ".$_FILES['fileToUpload']['size'][$i]. "<br>";
+                    $dir ='uploads/'.basename($_FILES['fileToUpload']['name'][$i])  ;
+                    echo "<img src=".$dir." height = 250 width= 400>"."<br>";
+                    move_uploaded_file($_FILES['fileToUpload']['tmp_name'][$i], $dir);
+                }     
+            } 
 
-    function checkSize($size = null){
-        $max = 5000000; // 5mb
-        if($size){
-            return $size <= $max;
-        }
-    }
+            
 
-    function upload($file = null){
-        $destination = 'uploads/'.basename($_FILES['fileToUpload']['name']);
-        return move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $destination);
-    }
-   
-?>
+            function alert($msg) {
+            echo "<script type='text/javascript'>alert('$msg');</script>";
+            }
+            
+        ?>
+    </div>
+    </div>
+
+</body>
