@@ -1,6 +1,6 @@
 <body>
     <?php
-     include 'bootstrap and js';
+     include 'header.html';
     ?>
     <div class="jumbotron" >
 	<div class="container" style="width:400px">
@@ -20,6 +20,7 @@
                 
                 if($type != "image/png"&& $type!="image/jpeg"&& $type!="image/jpg"){
                     alert( "Fail to upload, only png,jpeg and jpg are accepted");
+                    include_once 'fileupload.php';
                      
                 }elseif($size > 5000000){ 
                     alert("Fail to upload, File must not exceed to 5mb");
@@ -37,7 +38,7 @@
             } 
 
             
-
+        
             function alert($msg) {
             echo "<script type='text/javascript'>alert('$msg');</script>";
             }
